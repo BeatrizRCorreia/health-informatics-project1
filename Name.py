@@ -1,6 +1,7 @@
 class Name:
 
-	def __init__(self, use, text, family, given, period, prefix, suffix):
+	def __init__(self, p_or_c, use, text, family, given, period, prefix, suffix):
+		self.p_or_c = p_or_c
 		self.use = use
 		self.text = text
 		self.family = family
@@ -8,6 +9,9 @@ class Name:
 		self.period = period
 		self.prefix = prefix
 		self.suffix = suffix
+
+	def get_p_or_c(self):
+		return self.p_or_c
 
 	def get_use(self):
 		return self.use

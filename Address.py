@@ -1,6 +1,7 @@
 class Address:
 
-	def __init__(self, use, type, text, line, city, district, state, postalCode, country, period):
+	def __init__(self, p_or_c, use, type, text, line, city, district, state, postalCode, country, period):
+		self.p_or_c = p_or_c
 		self.use = use
 		self.type = type
 		self.text = text
@@ -11,6 +12,9 @@ class Address:
 		self.postalCode = postalCode
 		self.country = country
 		self.period = period
+
+	def get_p_or_c(self):
+		return self.p_or_c
 
 	def get_use(self):
 		return self.use

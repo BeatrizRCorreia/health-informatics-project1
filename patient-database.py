@@ -8,23 +8,24 @@ from Patient import Patient
 from Telecom import Telecom
 from Address import Address
 from Contact import Contact
+from Animal import Animal
+from Link import Link
+from Communication import Communication
 
 json_files = ['patient-example.json']
 
 patients_sql = """CREATE TABLE IF NOT EXISTS patient (
-    identifier integer PRIMARY KEY,
-    active integer,
-    name text,
-    telecom text,
+    patient_db_id integer PRIMARY KEY,
+    active text,
     gender text,
     birthDate integer,
     deceasedBoolean integer,
-    address text,
+    managingOrganization text,
     maritalStatus text,
-    multipleBirth integer,
+    multipleBirthBoolean text,
+    multipleBirthInteger integer,
     photo blob,
-    generalPractioner text,
-    managingOrganization text)"""
+    generalPractioner text)"""
 
 animals_sql = """CREATE TABLE IF NOT EXISTS animal (
     species text,
@@ -32,20 +33,17 @@ animals_sql = """CREATE TABLE IF NOT EXISTS animal (
     genderStatus text)"""
 
 links_sql = """CREATE TABLE IF NOT EXISTS link (
-    other integer,
+    other text,
     type text)"""
 
 contacts_sql = """CREATE TABLE IF NOT EXISTS contact (
     relationship text,
-    name text,
-    telecom text,
-    address text,
     gender text,
     organization text,
     period integer)"""
 
 communications_sql = """CREATE TABLE IF NOT EXISTS communication (
-    language text
+    language text,
     preferred text)"""
 
 drop_patients_sql = """DROP TABLE IF EXISTS patient"""
@@ -72,12 +70,15 @@ def create_connection(db_file):
 def parser():
 
     patients = []
+    patient_db_id = 0
 
     for json_file in json_files:
         with open(json_file, 'r') as f:
             json_content_dict = json.load(f)
 
         if (json_content_dict.get('resourceType') == 'Patient'):
+
+            patient_db_id += 1
             
             print(json_content_dict)
 
@@ -85,10 +86,16 @@ def parser():
 
             print('\n')
 
-            patient = Patient(json_content_dict.get('active'), json_content_dict.get('gender'), json_content_dict.get('birthDate'), json_content_dict.get('deceasedBoolean'), json_content_dict.get('managingOrganization'))
+            if 'animal' in json_content_dict.keys():
+                for f in json_content_dict.get('animal'):
+                    animal = Animal(json_content_dict.get('species'), json_content_dict.get('breed'), json_content_dict.get('genderStatus'))
+            else:
+                animal = None
+
+            patient = Patient(patient_db_id, json_content_dict.get('active'), json_content_dict.get('gender'), json_content_dict.get('birthDate'), json_content_dict.get('deceasedBoolean'), json_content_dict.get('managingOrganization'), json_content_dict.get('maritalStatus'), json_content_dict.get('multipleBirthBoolean'), json_content_dict.get('multipleBirthInteger'), json_content_dict.get('photo'), json_content_dict.get('generalPractioner'), animal)
 
             for a in json_content_dict.get('name'):
-                name = Name(a.get('use'), a.get('text'), a.get('family'), a.get('given'), a.get('period'), a.get('prefix'), a.get('suffix'))
+                name = Name('p', a.get('use'), a.get('text'), a.get('family'), a.get('given'), a.get('period'), a.get('prefix'), a.get('suffix'))
                 patient.names.append(name)
 
             for b in json_content_dict.get('identifier'):
@@ -100,31 +107,63 @@ def parser():
                 patient.telecoms.append(telecom)
 
             for d in json_content_dict.get('address'):
-                address = Address(d.get('use'), d.get('type'), d.get('text'), d.get('line'), d.get('city'), d.get('district'), d.get('state'), d.get('postalCode'), d.get('country'), d.get('period'))
+                address = Address('p', d.get('use'), d.get('type'), d.get('text'), d.get('line'), d.get('city'), d.get('district'), d.get('state'), d.get('postalCode'), d.get('country'), d.get('period'))
                 patient.addresses.append(address)
 
-            for e in json_content_dict.get('contact'):
-                name = Name(e.get('name').get('use'), e.get('name').get('text'), e.get('name').get('family'), e.get('name').get('given'), e.get('name').get('period'), e.get('name').get('prefix'), e.get('name').get('suffix'))
-                address = Address(e.get('address').get('use'), e.get('address').get('type'), e.get('address').get('text'), e.get('address').get('line'), e.get('address').get('city'), e.get('address').get('district'), e.get('address').get('state'), e.get('address').get('postalCode'), e.get('address').get('country'), e.get('address').get('period'))
-                contact = Contact(e.get('relationship'), name, address, e.get('gender'), e.get('organization'), e.get('period'))
-                for f in e.get('telecom'):
-                    telecom = Telecom(f.get('system'), f.get('value'), f.get('use'), f.get('rank'), f.get('period'))
-                    contact.telecoms.append(telecom)
-                patient.contacts.append(contact)
+            if 'contact' in json_content_dict.keys():
+                for e in json_content_dict.get('contact'):
+                    name = Name('c', e.get('name').get('use'), e.get('name').get('text'), e.get('name').get('family'), e.get('name').get('given'), e.get('name').get('period'), e.get('name').get('prefix'), e.get('name').get('suffix'))
+                    address = Address('c', e.get('address').get('use'), e.get('address').get('type'), e.get('address').get('text'), e.get('address').get('line'), e.get('address').get('city'), e.get('address').get('district'), e.get('address').get('state'), e.get('address').get('postalCode'), e.get('address').get('country'), e.get('address').get('period'))
+                    contact = Contact(e.get('relationship'), name, address, e.get('gender'), e.get('organization'), e.get('period'))
+                    for f in e.get('telecom'):
+                        telecom = Telecom(f.get('system'), f.get('value'), f.get('use'), f.get('rank'), f.get('period'))
+                        contact.telecoms.append(telecom)
+                    patient.contacts.append(contact)
+            
+            if 'link' in json_content_dict.keys():
+                for g in json_content_dict.get('link'):
+                    link = Link(g.get('other'), g.get('type'))
+                    patient.links.append(link)
+
+            if 'communication' in json_content_dict.keys():
+                for h in json_content_dict.get('communication'):
+                    communication = Communication(h.get('language'), h.get('preferred'))
+                    patient.communications.append(communication)
 
             patients.append(patient)
 
             print(patient)
 
+            print(patient.get_patient_db_id())
             print(patient.get_active())
             print(patient.get_gender())
             print(patient.get_birthDate())
             print(patient.get_deceasedBoolean())
             print(patient.get_managingOrganization())
+            print(patient.get_maritalStatus())
+            print(patient.get_multipleBirthBoolean())
+            print(patient.get_multipleBirthInteger())
+            print(patient.get_photo())
+            print(patient.get_generalPractitioner())
+
+            print('\n')
+
+            print(patient.get_Animal())
+
+            print('\n')
 
             print(patient.names)
+            print(patient.identifiers)
+            print(patient.telecoms)
+            print(patient.addresses)
+            print(patient.contacts)
+            print(patient.links)
+            print(patient.communications)
+
+            print('\n')
 
             for i in patient.names:
+                print(i.get_p_or_c())
                 print(i.get_use())
                 print(i.get_text())
                 print(i.get_family())
@@ -155,6 +194,7 @@ def parser():
             print('\n')
 
             for n in patient.addresses:
+                print(n.get_p_or_c())
                 print(n.get_use())
                 print(n.get_type())
                 print(n.get_text())
@@ -171,6 +211,7 @@ def parser():
             for l in patient.contacts:
                 print(l.get_relationship())
                 print(l.get_Name())
+                print(l.get_Name().get_p_or_c())
                 print(l.get_Name().get_use())
                 print(l.get_Name().get_text())
                 print(l.get_Name().get_family())
@@ -182,6 +223,7 @@ def parser():
                 print(l.get_organization())
                 print(l.get_period())
                 print(l.get_Address())
+                print(l.get_Address().get_p_or_c())
                 print(l.get_Address().get_use())
                 print(l.get_Address().get_type())
                 print(l.get_Address().get_text())

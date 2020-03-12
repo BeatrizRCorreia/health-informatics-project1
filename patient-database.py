@@ -19,42 +19,67 @@ patients_sql = """CREATE TABLE IF NOT EXISTS patient (
     active text,
     gender text,
     birthDate integer,
-    deceasedBoolean integer,
+    deceasedBoolean text,
     managingOrganization text,
     maritalStatus text,
     multipleBirthBoolean text,
     multipleBirthInteger integer,
     photo blob,
-    generalPractioner text)"""
+    generalPractitioner text);"""
 
 animals_sql = """CREATE TABLE IF NOT EXISTS animal (
+    patient_db_id integer,
     species text,
     breed text,
-    genderStatus text)"""
+    genderStatus text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
 links_sql = """CREATE TABLE IF NOT EXISTS link (
+    patient_db_id integer,
     other text,
-    type text)"""
+    type text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
 contacts_sql = """CREATE TABLE IF NOT EXISTS contact (
+    patient_db_id integer,
     relationship text,
     gender text,
     organization text,
-    period integer)"""
+    period text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
 communications_sql = """CREATE TABLE IF NOT EXISTS communication (
+    patient_db_id integer,
     language text,
-    preferred text)"""
+    preferred text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
-drop_patients_sql = """DROP TABLE IF EXISTS patient"""
+addresses_sql = """CREATE TABLE IF NOT EXISTS address (
+    patient_db_id integer,
+    p_or_c text,
+    use text,
+    type text,
+    textt text,
+    line text,
+    city text,
+    district text,
+    state, text,
+    postalCode text,
+    country text,
+    period text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
-drop_animals_sql = """DROP TABLE IF EXISTS animal"""
+drop_patients_sql = """DROP TABLE IF EXISTS patient;"""
 
-drop_links_sql = """DROP TABLE IF EXISTS link"""
+drop_animals_sql = """DROP TABLE IF EXISTS animal;"""
 
-drop_contacts_sql = """DROP TABLE IF EXISTS contact"""
+drop_links_sql = """DROP TABLE IF EXISTS link;"""
 
-drop_communications_sql = """DROP TABLE IF EXISTS communication"""
+drop_contacts_sql = """DROP TABLE IF EXISTS contact;"""
+
+drop_communications_sql = """DROP TABLE IF EXISTS communication;"""
+
+drop_addresses_sql = """DROP TABLE IF EXISTS address;"""
 
 def create_connection(db_file):
     """ create a database connection to a SQLite database """
@@ -95,7 +120,7 @@ def parser():
             patient = Patient(patient_db_id, json_content_dict.get('active'), json_content_dict.get('gender'), json_content_dict.get('birthDate'), json_content_dict.get('deceasedBoolean'), json_content_dict.get('managingOrganization'), json_content_dict.get('maritalStatus'), json_content_dict.get('multipleBirthBoolean'), json_content_dict.get('multipleBirthInteger'), json_content_dict.get('photo'), json_content_dict.get('generalPractioner'), animal)
 
             for a in json_content_dict.get('name'):
-                name = Name('p', a.get('use'), a.get('text'), a.get('family'), a.get('given'), a.get('period'), a.get('prefix'), a.get('suffix'))
+                name = Name('patient', a.get('use'), a.get('text'), a.get('family'), a.get('given'), a.get('period'), a.get('prefix'), a.get('suffix'))
                 patient.names.append(name)
 
             for b in json_content_dict.get('identifier'):
@@ -107,13 +132,13 @@ def parser():
                 patient.telecoms.append(telecom)
 
             for d in json_content_dict.get('address'):
-                address = Address('p', d.get('use'), d.get('type'), d.get('text'), d.get('line'), d.get('city'), d.get('district'), d.get('state'), d.get('postalCode'), d.get('country'), d.get('period'))
+                address = Address('patient', d.get('use'), d.get('type'), d.get('text'), d.get('line'), d.get('city'), d.get('district'), d.get('state'), d.get('postalCode'), d.get('country'), d.get('period'))
                 patient.addresses.append(address)
 
             if 'contact' in json_content_dict.keys():
                 for e in json_content_dict.get('contact'):
-                    name = Name('c', e.get('name').get('use'), e.get('name').get('text'), e.get('name').get('family'), e.get('name').get('given'), e.get('name').get('period'), e.get('name').get('prefix'), e.get('name').get('suffix'))
-                    address = Address('c', e.get('address').get('use'), e.get('address').get('type'), e.get('address').get('text'), e.get('address').get('line'), e.get('address').get('city'), e.get('address').get('district'), e.get('address').get('state'), e.get('address').get('postalCode'), e.get('address').get('country'), e.get('address').get('period'))
+                    name = Name('contact', e.get('name').get('use'), e.get('name').get('text'), e.get('name').get('family'), e.get('name').get('given'), e.get('name').get('period'), e.get('name').get('prefix'), e.get('name').get('suffix'))
+                    address = Address('contact', e.get('address').get('use'), e.get('address').get('type'), e.get('address').get('text'), e.get('address').get('line'), e.get('address').get('city'), e.get('address').get('district'), e.get('address').get('state'), e.get('address').get('postalCode'), e.get('address').get('country'), e.get('address').get('period'))
                     contact = Contact(e.get('relationship'), name, address, e.get('gender'), e.get('organization'), e.get('period'))
                     for f in e.get('telecom'):
                         telecom = Telecom(f.get('system'), f.get('value'), f.get('use'), f.get('rank'), f.get('period'))
@@ -244,8 +269,7 @@ def parser():
             print('\n')
 
     print(patients)
-
-
+    return patients
 
 def create_table_Patient(database):
     database.execute(patients_sql)
@@ -262,10 +286,83 @@ def create_table_Contact(database):
 def create_table_Communication(database):
     database.execute(communications_sql)
 
+def create_table_Address(database):
+    database.execute(addresses_sql)
+
+def populate_db(patients, database):
+    print('\n')
+    print('POPULATE DB:')
+
+    for patient in patients:
+        
+        patient_data = (patient.get_patient_db_id(), str(patient.get_active()), str(patient.get_gender()), str(patient.get_birthDate()), str(patient.get_deceasedBoolean()), str(patient.get_managingOrganization()), str(patient.get_maritalStatus()), str(patient.get_multipleBirthBoolean()), str(patient.get_multipleBirthInteger()), str(patient.get_photo()), str(patient.get_generalPractitioner())) 
+        # print(patient_data)
+        database.execute('INSERT INTO patient(patient_db_id, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner) VALUES (?,?,?,?,?,?,?,?,?,?,?);', patient_data)
+
+        if (patient.get_Animal() != None):
+            animal_data = (patient.get_patient_db_id(), str(patient.get_Animal().get_species()), str(patient.get_Animal().get_breed()), str(patient.get_Animal().get_genderStatus()))
+            # print(animal_data)
+            database.execute('INSERT INTO animal(patient_db_id, species, breed, genderStatus) VALUES (?,?,?,?);', animal_data)
+
+        for link in patient.links:
+            link_data = (patient.get_patient_db_id(), str(link.get_other()), str(link.get_type()))
+            # print(link_data)
+            database.execute('INSERT INTO link(patient_db_id, other, type) VALUES (?,?,?);', link_data)
+
+        for contact in patient.contacts:
+            contact_data = (patient.get_patient_db_id(), str(contact.get_relationship()), str(contact.get_gender()), str(contact.get_organization()), str(contact.get_period()))
+            # print(contact_data)
+            database.execute('INSERT INTO contact(patient_db_id, relationship, gender, organization, period) VALUES (?,?,?,?,?);', contact_data)
+            if (contact.get_Address() != None):
+                address_data = (patient.get_patient_db_id(), str(contact.get_Address().get_p_or_c()), str(contact.get_Address().get_use()), str(contact.get_Address().get_type()), str(contact.get_Address().get_text()), str(contact.get_Address().get_line()), str(contact.get_Address().get_city()), str(contact.get_Address().get_district()), str(contact.get_Address().get_state()), str(contact.get_Address().get_postalCode()), str(contact.get_Address().get_country()), str(contact.get_Address().get_period()))
+                # print(address_data)
+                database.execute('INSERT INTO address(patient_db_id, p_or_c, use, type, textt, line, city, district, state, postalCode, country, period) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);', address_data)
+
+        for communication in patient.communications:
+            communication_data = (patient.get_patient_db_id(), str(communication.get_language()), str(communication.get_preferred()))
+            # print(communication_data)
+            database.execute('INSERT INTO communication(patient_db_id, language, preferred) VALUES (?,?,?);', communication_data)
+
+        for address in patient.addresses:
+            address_data = (patient.get_patient_db_id(), str(address.get_p_or_c()), str(address.get_use()), str(address.get_type()), str(address.get_text()), str(address.get_line()), str(address.get_city()), str(address.get_district()), str(address.get_state()), str(address.get_postalCode()), str(address.get_country()), str(address.get_period()))
+            # print(address_data)
+            database.execute('INSERT INTO address(patient_db_id, p_or_c, use, type, textt, line, city, district, state, postalCode, country, period) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);', address_data)
+
+    print('\n')
+    print('CONTENT IN PATIENT TABLE:')
+    for row in database.execute('SELECT * FROM patient'):
+        print(row)
+
+    print('\n')
+    print('CONTENT IN ANIMAL TABLE:')
+    for row in database.execute('SELECT * FROM animal'):
+        print(row)
+
+    print('\n')
+    print('CONTENT IN LINK TABLE:')
+    for row in database.execute('SELECT * FROM link'):
+        print(row)
+
+    print('\n')
+    print('CONTENT IN CONTACT TABLE:')
+    for row in database.execute('SELECT * FROM contact'):
+        print(row)
+
+    print('\n')
+    print('CONTENT IN COMMUNICATION TABLE:')
+    for row in database.execute('SELECT * FROM communication'):
+        print(row)
+
+    print('\n')
+    print('CONTENT IN ADDRESS TABLE:')
+    for row in database.execute('SELECT * FROM address'):
+        print(row)
+
+
 if __name__ == '__main__':
     connection = create_connection(r"/home/beatriz/Documents/TIS/health_informatics_project1/database/my-database.db")
 
-    parser()
+    patients = parser()
 
     if connection is not None:
         connection.execute(drop_patients_sql)
@@ -278,6 +375,8 @@ if __name__ == '__main__':
 
         connection.execute(drop_communications_sql)
 
+        connection.execute(drop_addresses_sql)
+
         create_table_Patient(connection);
 
         create_table_Animal(connection);
@@ -288,9 +387,9 @@ if __name__ == '__main__':
 
         create_table_Communication(connection);
 
-            
+        create_table_Address(connection);
 
-
+        populate_db(patients, connection)
 
         connection.close()
 

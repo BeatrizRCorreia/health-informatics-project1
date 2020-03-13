@@ -126,7 +126,7 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        # conn.execute("""PRAGMA foreign_keys = ON;""") #NOT WORKING PROPERLY
+        conn.execute("""PRAGMA foreign_keys = ON;""")
         return conn
     except Error as e:
         print(e)
@@ -437,6 +437,8 @@ def populate_db(patients, database):
                     list_telecom_data[i] = None
             tuple_telecom_data = tuple(list_telecom_data)
             database.execute('INSERT INTO telecom(patient_db_id, p_or_c, system, value, use, rank, period) VALUES (?,?,?,?,?,?,?);', tuple_telecom_data)
+
+    # database.execute('DELETE FROM patient WHERE patient_db_id = 1;') # THE DELETE CASCADE WORKS WELL
 
     print('\n')
     print('CONTENT IN PATIENT TABLE:')

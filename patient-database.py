@@ -101,6 +101,7 @@ telecoms_sql = """CREATE TABLE IF NOT EXISTS telecom (
     period text,
     FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
 
+
 drop_patients_sql = """DROP TABLE IF EXISTS patient;"""
 
 drop_animals_sql = """DROP TABLE IF EXISTS animal;"""
@@ -119,16 +120,19 @@ drop_names_sql = """DROP TABLE IF EXISTS name;"""
 
 drop_telecoms_sql = """DROP TABLE IF EXISTS telecom;"""
 
+
 def create_connection(db_file):
     """ create a database connection to a SQLite database """
     conn = None
     try:
         conn = sqlite3.connect(db_file)
+        # conn.execute("""PRAGMA foreign_keys = ON;""") #NOT WORKING PROPERLY
         return conn
     except Error as e:
         print(e)
 
     return conn
+
 
 def parser():
 
@@ -311,6 +315,7 @@ def parser():
     print(patients)
     return patients
 
+
 def populate_db(patients, database):
     print('\n')
     print('POPULATE DB:')
@@ -479,6 +484,7 @@ def populate_db(patients, database):
         print(row)
 
     database.commit()
+    return
 
 
 if __name__ == '__main__':
@@ -487,40 +493,27 @@ if __name__ == '__main__':
     patients = parser()
 
     if connection is not None:
+
+        # DROP TABLES
         connection.execute(drop_patients_sql)
-
         connection.execute(drop_animals_sql)
-
         connection.execute(drop_links_sql)
-
         connection.execute(drop_contacts_sql)
-
         connection.execute(drop_communications_sql)
-
         connection.execute(drop_addresses_sql)
-
         connection.execute(drop_identifiers_sql)
-
         connection.execute(drop_names_sql)
-
         connection.execute(drop_telecoms_sql)
 
+        # CREATE TABLES
         connection.execute(patients_sql)
-
         connection.execute(animals_sql)
-
         connection.execute(links_sql)
-
         connection.execute(contacts_sql)
-
         connection.execute(communications_sql)
-
         connection.execute(addresses_sql)
-
         connection.execute(identifiers_sql)
-
         connection.execute(names_sql)
-
         connection.execute(telecoms_sql)
 
         connection.commit()

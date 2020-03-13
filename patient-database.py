@@ -322,7 +322,6 @@ def populate_db(patients, database):
     for patient in patients:
         
         patient_data = (patient.get_patient_db_id(), patient.get_active(), str(patient.get_gender()), str(patient.get_birthDate()), patient.get_deceasedBoolean(), str(patient.get_managingOrganization()), str(patient.get_maritalStatus()), patient.get_multipleBirthBoolean(), patient.get_multipleBirthInteger(), str(patient.get_photo()), str(patient.get_generalPractitioner())) 
-        # print(patient_data)
         list_patient_data = list(patient_data)
         for i in range(0, len(list_patient_data)):
             if (list_patient_data[i] == 'None'):
@@ -332,7 +331,6 @@ def populate_db(patients, database):
 
         if (patient.get_Animal() != None):
             animal_data = (patient.get_patient_db_id(), str(patient.get_Animal().get_species()), str(patient.get_Animal().get_breed()), str(patient.get_Animal().get_genderStatus()))
-            # print(animal_data)
             list_animal_data = list(animal_data)
             for i in range(0, len(list_animal_data)):
                 if (list_animal_data[i] == 'None'):
@@ -342,7 +340,6 @@ def populate_db(patients, database):
 
         for link in patient.links:
             link_data = (patient.get_patient_db_id(), str(link.get_other()), str(link.get_type()))
-            # print(link_data)
             list_link_data = list(link_data)
             for i in range(0, len(list_link_data)):
                 if (list_link_data[i] == 'None'):
@@ -352,7 +349,6 @@ def populate_db(patients, database):
 
         for contact in patient.contacts:
             contact_data = (patient.get_patient_db_id(), str(contact.get_relationship()), str(contact.get_gender()), str(contact.get_organization()), str(contact.get_period()))
-            # print(contact_data)
             list_contact_data = list(contact_data)
             for i in range(0, len(list_contact_data)):
                 if (list_contact_data[i] == 'None'):
@@ -361,7 +357,6 @@ def populate_db(patients, database):
             database.execute('INSERT INTO contact(patient_db_id, relationship, gender, organization, period) VALUES (?,?,?,?,?);', tuple_contact_data)
             if (contact.get_Address() != None):
                 address_data = (patient.get_patient_db_id(), str(contact.get_Address().get_p_or_c()), str(contact.get_Address().get_use()), str(contact.get_Address().get_type()), str(contact.get_Address().get_text()), str(contact.get_Address().get_line()), str(contact.get_Address().get_city()), str(contact.get_Address().get_district()), str(contact.get_Address().get_state()), contact.get_Address().get_postalCode(), str(contact.get_Address().get_country()), str(contact.get_Address().get_period()))
-                # print(address_data)
                 list_address_data = list(address_data)
                 for i in range(0, len(list_address_data)):
                     if (list_address_data[i] == 'None'):
@@ -370,7 +365,6 @@ def populate_db(patients, database):
                 database.execute('INSERT INTO address(patient_db_id, p_or_c, use, type, textt, line, city, district, state, postalCode, country, period) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);', tuple_address_data)
             if (contact.get_Name() != None):
                 name_data = (patient.get_patient_db_id(), str(contact.get_Name().get_p_or_c()), str(contact.get_Name().get_use()), str(contact.get_Name().get_text()), str(contact.get_Name().get_family()), str(contact.get_Name().get_given()), str(contact.get_Name().get_period()), str(contact.get_Name().get_prefix()), str(contact.get_Name().get_suffix()))
-                # print(name_data)
                 list_name_data = list(name_data)
                 for i in range(0, len(list_name_data)):
                     if (list_name_data[i] == 'None'):
@@ -379,7 +373,6 @@ def populate_db(patients, database):
                 database.execute('INSERT INTO name(patient_db_id, p_or_c, use, textt, family, given, period, prefix, suffix) VALUES (?,?,?,?,?,?,?,?,?);', tuple_name_data)
             for telecom in contact.telecoms:
                 telecom_data = (patient.get_patient_db_id(), str(telecom.get_p_or_c()), str(telecom.get_system()), str(telecom.get_value()), str(telecom.get_use()), telecom.get_rank(), str(telecom.get_period()))
-                # print(telecom_data)
                 list_telecom_data = list(telecom_data)
                 for i in range(0, len(list_telecom_data)):
                     if (list_telecom_data[i] == 'None'):
@@ -389,17 +382,15 @@ def populate_db(patients, database):
 
         for communication in patient.communications:
             communication_data = (patient.get_patient_db_id(), str(communication.get_language()), communication.get_preferred())
-            # print(communication_data)
             list_communication_data = list(communication_data)
             for i in range(0, len(list_communication_data)):
                 if (list_communication_data[i] == 'None'):
                     list_communication_data[i] = None
             tuple_communication_data = tuple(list_communication_data)
-            database.execute('INSERT INTO communication(patient_db_id, language, preferred) VALUES (?,?,?);', communication_data)
+            database.execute('INSERT INTO communication(patient_db_id, language, preferred) VALUES (?,?,?);', tuple_communication_data)
 
         for address in patient.addresses:
             address_data = (patient.get_patient_db_id(), str(address.get_p_or_c()), str(address.get_use()), str(address.get_type()), str(address.get_text()), str(address.get_line()), str(address.get_city()), str(address.get_district()), str(address.get_state()), address.get_postalCode(), str(address.get_country()), str(address.get_period()))
-            # print(address_data)
             list_address_data = list(address_data)
             for i in range(0, len(list_address_data)):
                 if (list_address_data[i] == 'None'):
@@ -409,7 +400,6 @@ def populate_db(patients, database):
 
         for identifier in patient.identifiers:
             identifier_data = (patient.get_patient_db_id(), str(identifier.get_use()), str(identifier.get_type()), str(identifier.get_system()), identifier.get_value(), str(identifier.get_period()), str(identifier.get_assigner()))
-            # print(identifier_data)
             list_identifier_data = list(identifier_data)
             for i in range(0, len(list_identifier_data)):
                 if (list_identifier_data[i] == 'None'):
@@ -419,7 +409,6 @@ def populate_db(patients, database):
 
         for name in patient.names:
             name_data = (patient.get_patient_db_id(), str(name.get_p_or_c()), str(name.get_use()), str(name.get_text()), str(name.get_family()), str(name.get_given()), str(name.get_period()), str(name.get_prefix()), str(name.get_suffix()))
-            # print(name_data)
             list_name_data = list(name_data)
             for i in range(0, len(list_name_data)):
                 if (list_name_data[i] == 'None'):
@@ -429,7 +418,6 @@ def populate_db(patients, database):
 
         for telecom in patient.telecoms:
             telecom_data = (patient.get_patient_db_id(), str(telecom.get_p_or_c()), str(telecom.get_system()), str(telecom.get_value()), str(telecom.get_use()), telecom.get_rank(), str(telecom.get_period()))
-            # print(telecom_data)
             list_telecom_data = list(telecom_data)
             for i in range(0, len(list_telecom_data)):
                 if (list_telecom_data[i] == 'None'):
@@ -489,8 +477,11 @@ def populate_db(patients, database):
 
 
 if __name__ == '__main__':
+
+    # SET DATABASE
     connection = create_connection(r"/home/beatriz/Documents/TIS/health_informatics_project1/database/my-database.db")
 
+    # PARSE JSON CONTENT TO OBJECTS
     patients = parser()
 
     if connection is not None:
@@ -519,6 +510,7 @@ if __name__ == '__main__':
 
         connection.commit()
 
+        # POPULATE TABLES
         populate_db(patients, connection)
 
         connection.close()

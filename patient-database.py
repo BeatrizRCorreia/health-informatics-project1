@@ -25,7 +25,8 @@ patients_sql = """CREATE TABLE IF NOT EXISTS patient (
     multipleBirthBoolean integer,
     multipleBirthInteger integer,
     photo blob,
-    generalPractitioner text);"""
+    generalPractitioner text,
+    CONSTRAINT check_gender CHECK (gender IN ('male', 'female', 'other', 'unknown')));"""
 
 animals_sql = """CREATE TABLE IF NOT EXISTS animal (
     patient_db_id integer,
@@ -38,7 +39,8 @@ links_sql = """CREATE TABLE IF NOT EXISTS link (
     patient_db_id integer,
     other text,
     type text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_type CHECK (type IN ('replaced-by', 'replaces', 'refer', 'seealso')));"""
 
 contacts_sql = """CREATE TABLE IF NOT EXISTS contact (
     patient_db_id integer,
@@ -46,7 +48,8 @@ contacts_sql = """CREATE TABLE IF NOT EXISTS contact (
     gender text,
     organization text,
     period text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_gender CHECK (gender IN ('male', 'female', 'other', 'unknown')));"""
 
 communications_sql = """CREATE TABLE IF NOT EXISTS communication (
     patient_db_id integer,
@@ -67,7 +70,10 @@ addresses_sql = """CREATE TABLE IF NOT EXISTS address (
     postalCode integer,
     country text,
     period text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_p_or_c CHECK (p_or_c IN ('patient', 'contact')),
+    CONSTRAINT check_use CHECK (use IN ('home', 'work', 'temp', 'old')),
+    CONSTRAINT check_type CHECK (type IN ('postal', 'physical', 'both')));"""
 
 identifiers_sql = """CREATE TABLE IF NOT EXISTS identifier (
     patient_db_id integer,
@@ -77,7 +83,8 @@ identifiers_sql = """CREATE TABLE IF NOT EXISTS identifier (
     value integer,
     period text,
     assigner text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_use CHECK (use IN ('usual', 'official', 'temp', 'secondary')));"""
 
 names_sql = """CREATE TABLE IF NOT EXISTS name (
     patient_db_id integer,
@@ -89,7 +96,9 @@ names_sql = """CREATE TABLE IF NOT EXISTS name (
     period text,
     prefix text,
     suffix text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_p_or_c CHECK (p_or_c IN ('patient', 'contact')),
+    CONSTRAINT check_use CHECK (use IN ('usual', 'official', 'temp', 'nickname', 'anonymous', 'old', 'maiden')));"""
 
 telecoms_sql = """CREATE TABLE IF NOT EXISTS telecom (
     patient_db_id integer,
@@ -99,7 +108,10 @@ telecoms_sql = """CREATE TABLE IF NOT EXISTS telecom (
     use text,
     rank integer,
     period text,
-    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);"""
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_p_or_c CHECK (p_or_c IN ('patient', 'contact')),
+    CONSTRAINT check_system CHECK (system IN ('phone', 'fax', 'email', 'pager', 'url', 'sms', 'other')),
+    CONSTRAINT check_use CHECK (use IN ('home', 'work', 'temp', 'old', 'mobile')));"""
 
 
 drop_patients_sql = """DROP TABLE IF EXISTS patient;"""
@@ -122,7 +134,7 @@ drop_telecoms_sql = """DROP TABLE IF EXISTS telecom;"""
 
 
 def create_connection(db_file):
-    """ create a database connection to a SQLite database """
+    # SET DATABASE
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -135,7 +147,7 @@ def create_connection(db_file):
 
 
 def parser():
-
+    # PARSE JSON CONTENT TO OBJECTS
     patients = []
     patient_db_id = 0
 
@@ -146,12 +158,6 @@ def parser():
         if (json_content_dict.get('resourceType') == 'Patient'):
 
             patient_db_id += 1
-            
-            print(json_content_dict)
-
-            print('\n')
-
-            print('\n')
 
             if 'animal' in json_content_dict.keys():
                 animal = Animal(json_content_dict.get('animal').get('species'), json_content_dict.get('animal').get('breed'), json_content_dict.get('animal').get('genderStatus'))
@@ -198,126 +204,12 @@ def parser():
 
             patients.append(patient)
 
-            print(patient)
-
-            print(patient.get_patient_db_id())
-            print(patient.get_active())
-            print(patient.get_gender())
-            print(patient.get_birthDate())
-            print(patient.get_deceasedBoolean())
-            print(patient.get_managingOrganization())
-            print(patient.get_maritalStatus())
-            print(patient.get_multipleBirthBoolean())
-            print(patient.get_multipleBirthInteger())
-            print(patient.get_photo())
-            print(patient.get_generalPractitioner())
-
-            print('\n')
-
-            print(patient.get_Animal())
-
-            print('\n')
-
-            print(patient.names)
-            print(patient.identifiers)
-            print(patient.telecoms)
-            print(patient.addresses)
-            print(patient.contacts)
-            print(patient.links)
-            print(patient.communications)
-
-            print('\n')
-
-            for i in patient.names:
-                print(i.get_p_or_c())
-                print(i.get_use())
-                print(i.get_text())
-                print(i.get_family())
-                print(i.get_given())
-                print(i.get_period())
-                print(i.get_prefix())
-                print(i.get_suffix())
-
-            print('\n')
-
-            for j in patient.identifiers:
-                print(j.get_use())
-                print(j.get_type())
-                print(j.get_system())
-                print(j.get_value())
-                print(j.get_period())
-                print(j.get_assigner())
-
-            print('\n')
-
-            for m in patient.telecoms:
-                print(m.get_p_or_c())
-                print(m.get_system())
-                print(m.get_value())
-                print(m.get_use())
-                print(m.get_rank())
-                print(m.get_period())
-
-            print('\n')
-
-            for n in patient.addresses:
-                print(n.get_p_or_c())
-                print(n.get_use())
-                print(n.get_type())
-                print(n.get_text())
-                print(n.get_line())
-                print(n.get_city())
-                print(n.get_district())
-                print(n.get_state())
-                print(n.get_postalCode())
-                print(n.get_country())
-                print(n.get_period())
-
-            print('\n')
-
-            for l in patient.contacts:
-                print(l.get_relationship())
-                print(l.get_Name())
-                print(l.get_Name().get_p_or_c())
-                print(l.get_Name().get_use())
-                print(l.get_Name().get_text())
-                print(l.get_Name().get_family())
-                print(l.get_Name().get_given())
-                print(l.get_Name().get_period())
-                print(l.get_Name().get_prefix())
-                print(l.get_Name().get_suffix())
-                print(l.get_gender())
-                print(l.get_organization())
-                print(l.get_period())
-                print(l.get_Address())
-                print(l.get_Address().get_p_or_c())
-                print(l.get_Address().get_use())
-                print(l.get_Address().get_type())
-                print(l.get_Address().get_text())
-                print(l.get_Address().get_line())
-                print(l.get_Address().get_city())
-                print(l.get_Address().get_district())
-                print(l.get_Address().get_state())
-                print(l.get_Address().get_postalCode())
-                print(l.get_Address().get_country())
-                print(l.get_Address().get_period())
-                for telecom in l.telecoms:
-                    print(telecom.get_p_or_c())
-                    print(telecom.get_system())
-                    print(telecom.get_value())
-                    print(telecom.get_use())
-                    print(telecom.get_rank())
-                    print(telecom.get_period())
-
-            print('\n')
-
-    print(patients)
     return patients
 
 
 def populate_db(patients, database):
-    print('\n')
-    print('POPULATE DB:')
+    # POPULATE TABLES
+    print('Populating the db...')
 
     for patient in patients:
         
@@ -428,47 +320,56 @@ def populate_db(patients, database):
     # database.execute('DELETE FROM patient WHERE patient_db_id = 1;') # THE DELETE CASCADE WORKS WELL
 
     print('\n')
-    print('CONTENT IN PATIENT TABLE:')
+    print('CONTENT IN \'patient\' TABLE:')
+    print('(patient_db_id, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)')
     for row in database.execute('SELECT * FROM patient'):
         print(row)
 
     print('\n')
-    print('CONTENT IN ANIMAL TABLE:')
+    print('CONTENT IN \'animal\' TABLE:')
+    print('(patient_db_id, species, breed, genderStatus)')
     for row in database.execute('SELECT * FROM animal'):
         print(row)
 
     print('\n')
-    print('CONTENT IN LINK TABLE:')
+    print('CONTENT IN \'link\' TABLE:')
+    print('(patient_db_id, other, type)')
     for row in database.execute('SELECT * FROM link'):
         print(row)
 
     print('\n')
-    print('CONTENT IN CONTACT TABLE:')
+    print('CONTENT IN \'contact\' TABLE:')
+    print('(patient_db_id, relationship, gender, organization, period)')
     for row in database.execute('SELECT * FROM contact'):
         print(row)
 
     print('\n')
-    print('CONTENT IN COMMUNICATION TABLE:')
+    print('CONTENT IN \'communication\' TABLE:')
+    print('(patient_db_id, language, preferred)')
     for row in database.execute('SELECT * FROM communication'):
         print(row)
 
     print('\n')
-    print('CONTENT IN ADDRESS TABLE:')
+    print('CONTENT IN \'address\' TABLE:')
+    print('(patient_db_id, p_or_c, use, type, textt, line, city, district, state, postalCode, country, period)')
     for row in database.execute('SELECT * FROM address'):
         print(row)
 
     print('\n')
-    print('CONTENT IN IDENTIFIER TABLE:')
+    print('CONTENT IN \'identifier\' TABLE:')
+    print('(patient_db_id, use, type, system, value, period, assigner)')
     for row in database.execute('SELECT * FROM identifier'):
         print(row)
 
     print('\n')
-    print('CONTENT IN NAME TABLE:')
+    print('CONTENT IN \'name\' TABLE:')
+    print('(patient_db_id, p_or_c, use, textt, family, given, period, prefix, suffix)')
     for row in database.execute('SELECT * FROM name'):
         print(row)
 
     print('\n')
-    print('CONTENT IN TELECOM TABLE:')
+    print('CONTENT IN \'telecom\' TABLE:')
+    print('(patient_db_id, p_or_c, system, value, use, rank, period)')
     for row in database.execute('SELECT * FROM telecom'):
         print(row)
 

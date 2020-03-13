@@ -12,7 +12,7 @@ from Animal import Animal
 from Link import Link
 from Communication import Communication
 
-json_files = ['patient-example.json']
+json_files = ['patient-example.json', 'patient-example-2.json']
 
 patients_sql = """CREATE TABLE IF NOT EXISTS patient (
     patient_db_id integer PRIMARY KEY,
@@ -154,8 +154,7 @@ def parser():
             print('\n')
 
             if 'animal' in json_content_dict.keys():
-                for f in json_content_dict.get('animal'):
-                    animal = Animal(json_content_dict.get('species'), json_content_dict.get('breed'), json_content_dict.get('genderStatus'))
+                animal = Animal(json_content_dict.get('animal').get('species'), json_content_dict.get('animal').get('breed'), json_content_dict.get('animal').get('genderStatus'))
             else:
                 animal = None
 

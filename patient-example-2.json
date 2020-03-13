@@ -1,0 +1,227 @@
+{
+  "resourceType": "Patient",
+  "id": "example",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t<table>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Name</td>\n\t\t\t\t\t\t<td>Peter James \n              <b>Chalmers</b> (&quot;Jim&quot;)\n            </td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Address</td>\n\t\t\t\t\t\t<td>534 Erewhon, Pleasantville, Vic, 3999</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Contacts</td>\n\t\t\t\t\t\t<td>Home: unknown. Work: (03) 5555 6473</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Id</td>\n\t\t\t\t\t\t<td>MRN: 12345 (Acme Healthcare)</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>"
+  },
+  "identifier": [
+    {
+      "use": "temp",
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "urn:oid:1.4.36.446.595.916.1.3",
+      "value": "12345",
+      "period": {
+        "start": "2020-03-10"
+      },
+      "assigner": {
+        "display": "SSS Healthcare"
+      }
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "usual",
+      "text": "Jim Halpert",
+      "family": "Halpert",
+      "given": [
+        "Jim"
+      ],
+      "prefix": [
+        "J"
+      ]
+    },
+    {
+      "use": "nickname",
+      "given": [
+        "Jimmy"
+      ]
+    },
+    {
+      "use": "official",
+      "family": "Smith",
+      "given": [
+        "Jim",
+        "James"
+      ],
+      "suffix": [
+        "Smith"
+      ],
+      "period": {
+        "end": "2020"
+      }
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "(55) 7777 4444",
+      "use": "work",
+      "rank": 2
+    },
+    {
+      "system": "sms",
+      "value": "(22) 3456 7899",
+      "use": "home",
+      "rank": 1,
+      "period": {
+        "start": "2020"
+      }
+    },
+    {
+      "system": "phone",
+      "value": "(55) 9876 6543",
+      "use": "old",
+      "period": {
+        "end": "2014"
+      }
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1978-10-01",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "use": "home",
+      "type": "both",
+      "text": "13831 Calvert St, Van Nuys, Scranton, Pa  1",
+      "line": [
+        "13831 Calvert St"
+      ],
+      "city": "Scranton",
+      "state": "Pennsylvania",
+      "postalCode": "1",
+      "country": "USA",
+      "period": {
+        "start": "2009-10-08"
+      }
+    },
+    {
+      "use": "work",
+      "type": "physical",
+      "text": "1725 Slough Av, Scranton, Pa  55",
+      "line": [
+        "1725 Slough Av"
+      ],
+      "city": "Scranton",
+      "state": "Pennsylvania",
+      "postalCode": "55",
+      "country": "USA",
+      "period": {
+        "start": "2005-03-24"
+      }
+    }
+  ],
+  "maritalStatus": {
+    "display": "Married"
+  },
+  "multipleBirthBoolean": false,
+  "multipleBirthInteger": 0,
+  "contact": [
+    {
+      "relationship": [
+        {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v2/0131",
+              "code": "CP"
+            }
+          ]
+        }
+      ],
+      "name": {
+        "use": "official",
+        "text": "Pam Beesly",
+        "family": "Beesly",
+        "given": [
+          "Pam", "Pamela", "Morgan"
+        ],
+        "prefix": [
+          "P"
+        ],
+        "suffix": [
+          "Sly"
+        ]
+      },
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "+22 (333) 867921",
+          "use": "home",
+          "rank": 1,
+          "period": {
+          "start": "2020"
+          }
+        }
+      ],
+      "address": {
+        "use": "home",
+        "type": "both",
+        "line": [
+          "13831 Calvert St"
+        ],
+        "city": "Scranton",
+        "state": "Pennsylvania",
+        "postalCode": "1",
+        "country": "USA",
+        "period": {
+          "start": "2009-10-08"
+        }
+      },
+      "gender": "female",
+      "organization": "Dunder Mifflin",
+      "period": {
+        "start": "2009-10-10"
+      }
+    }
+  ],
+  "animal": {
+    "species": {
+      "code": "125097000",
+      "display": "goat"
+    },
+    "breed": {
+      "code": "28360002",
+      "display": "Swiss alpine goat (organism)"
+    },
+    "genderStatus": {
+      "code": "intact",
+      "display": "Intact"
+    }
+  },
+  "communication": [
+    {
+      "language": {
+        "code": "en",
+        "display": "English"
+      },
+      "preferred": true
+    },
+    {
+      "language": {
+        "code": "fr",
+        "display": "French"
+      },
+      "preferred": false
+    }
+  ],
+  "managingOrganization": {
+    "reference": "OrganizationA"
+  },
+  "link": [
+    {
+      "type": "refer"
+    },
+    {
+      "type": "replaces"
+    }
+  ]
+}

@@ -20,4 +20,4 @@ TO CHECK THE CONTENTS INSIDE THE DATABASE BY ENTERING THE DATABASE:
 ******* How to populate the database with more json files: *******
 
 1. Add the json file to the directory where are all the other python and json files.
-2. Add the name of the file to the json files list in line 18 (patient-database.py).
+2. Add the name of the file to the json files list in line 18 ("patient-database.py").

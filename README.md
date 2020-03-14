@@ -11,7 +11,7 @@ ___
 patient (<ins>patient_db_id</ins>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
 animal (<ins>patient_db_id</ins>, species, breed, genderStatus)
-	patient_db_id: FK (patient)
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 link (<ins>patient_db_id</ins>, other, type)
 	patient_db_id: FK (patient)

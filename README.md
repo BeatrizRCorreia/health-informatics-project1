@@ -19,30 +19,22 @@ link (<ins>patient_db_id</ins>, other, type)\
 contact (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, relationship, gender, organization, period)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
-communication (<ins>patient_db_id</ins>, language, preferred)
-
+communication (<ins>patient_db_id</ins>, language, preferred)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
-address (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, type, textt, line, city, district, state, postalCode, country, period)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
-
+address (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, type, textt, line, city, district, state, postalCode, country, period)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 
-identifier (<ins>patient_db_id</ins>, use, type, system, value, period, assigner)
-
+identifier (<ins>patient_db_id</ins>, use, type, system, value, period, assigner)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
-name (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, textt, family, given, period, prefix, suffix)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
-
+name (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, textt, family, given, period, prefix, suffix)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 
-telecom (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, system, value, use, rank, period)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
-
+telecom (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, system, value, use, rank, period)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 ___
 **(ii)**

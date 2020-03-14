@@ -143,3 +143,16 @@ CREATE TABLE IF NOT EXISTS telecom (
 ___
 **Q2 -** Write a program to populate the relational database from JSON files encoding *Patient* resources according to the HL7-PHIR format (**suggestion**: use Python with the [sqlite library](https://docs.python.org/2/library/sqlite3.html)). You can file example JSON files in the [*Patient* description](http://hl7.org/fhir/STU3/patient-examples.html). You should be able to load the [General Person Example](http://hl7.org/fhir/STU3/patient-example.json.html). 
 ___
+**Files that solve this question:**\
+main file: [patient-database.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-database.py)
+objects files: [Patient.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Patient.py), [Animal.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Animal.py), [Link.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Link.py), [Contact.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Contact.py), [Communication.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Communication.py), [Address.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Address.py), [Identifier.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Identifier.py), [Name.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Name.py) and [Telecom.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Telecom.py)
+patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example.json) and [patient-example-2.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example-2.json)
+
+**How I solved this:**\
+1. Set the database connection.\
+2. Parse the JSON files by saving the JSON fields inside objects fields (objects are Patient, Animal, Link, Contact, Communication, Address, Identifier, Name and Telecom).\
+3. Drop existing tables.\
+4. Create new tables (patient, animal, link, contact, communication, address, identifier, name and telecom).\
+5. Populate: insert into the corresponding tables the object fields.\
+6. Close the database connection.\
+___

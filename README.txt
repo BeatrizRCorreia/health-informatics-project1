@@ -1,7 +1,7 @@
 ******* Run my solution - Linux environment instructions: *******
 
 TO CHECK THE CONTENTS INSIDE THE DATABASE BY RUNNING MY PROGRAM THAT HAS ACCESS TO THE DATABASE:
-1. Adjust the file path on line 392 (patient-database.py) to the place in your computer where you want to create the database file "my-database.db".
+1. Adjust the file path on line 392 ("patient-database.py") to the place in your computer where you want to create the database file "my-database.db".
 2. Open a terminal.
 3. Get to the folder where the file "patient-database.py" is (along with all the previously mentioned python and json files).
 4. Run the command "python3 patient-database.py".

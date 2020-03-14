@@ -11,31 +11,42 @@ ___
 patient (<ins>patient_db_id</ins>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
 animal (<ins>patient_db_id</ins>, species, breed, genderStatus)
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 link (<ins>patient_db_id</ins>, other, type)
-	patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 contact (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, relationship, gender, organization, period)
-	patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 communication (<ins>patient_db_id</ins>, language, preferred)
-	patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 address (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, type, textt, line, city, district, state, postalCode, country, period)
-	patient_db_id: FK (patient)
-	contact_db_id: FK (contact)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 
 identifier (<ins>patient_db_id</ins>, use, type, system, value, period, assigner)
-	patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 name (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, textt, family, given, period, prefix, suffix)
-	patient_db_id: FK (patient)
-	contact_db_id: FK (contact)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 
 telecom (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, system, value, use, rank, period)
-	patient_db_id: FK (patient)
-	contact_db_id: FK (contact)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contact_db_id: FK (contact)
 ___
 **(ii)**
 ```

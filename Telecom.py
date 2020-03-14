@@ -1,15 +1,15 @@
 class Telecom:
 
-	def __init__(self, p_or_c, system, value, use, rank, period):
-		self.p_or_c = p_or_c
+	def __init__(self, contact_db_id, system, value, use, rank, period):
+		self.contact_db_id = contact_db_id
 		self.system = system
 		self.value = value
 		self.use = use
 		self.rank = rank
 		self.period = period
 
-	def get_p_or_c(self):
-		return self.p_or_c
+	def get_contact_db_id(self):
+		return self.contact_db_id
 
 	def get_system(self):
 		return self.system

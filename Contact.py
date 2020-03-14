@@ -1,6 +1,7 @@
 class Contact:
 
-	def __init__(self, relationship, Name, Address, gender, organization, period):
+	def __init__(self, contact_db_id, relationship, Name, Address, gender, organization, period):
+		self.contact_db_id = contact_db_id
 		self.relationship = relationship
 		self.Name = Name
 		self.Address = Address
@@ -8,6 +9,9 @@ class Contact:
 		self.organization = organization
 		self.period = period
 		self.telecoms = []
+
+	def get_contact_db_id(self):
+		return self.contact_db_id
 
 	def get_relationship(self):
 		return self.relationship

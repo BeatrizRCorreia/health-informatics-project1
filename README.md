@@ -7,7 +7,8 @@ The *HL7 Fast Healthcare Interoperability Resources* ([FHIR](http://www.hl7.org/
 **Q1 -** Derive a Relational Model to hold the information of the *Patient* resource. You may start by an Entity-Relationship (ER) model of the resources and then convert the ER model to the Relational Model, or you can just map the UML model of the resources into a relational schema directly. Then, implement the database in a database management system of your choice (**suggestion**: [*sqlite*](https://www.sqlite.org/index.html)). Your answer should contain **(i)** the Relational 3 Schema of the module and **(ii)** the SQL instructions to define the relational schema of the database.
 ___
 **(i)**
-patient(__patient_db_id__, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
+
+patient(<u>patient_db_id</u>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
 ___
 **(ii)**

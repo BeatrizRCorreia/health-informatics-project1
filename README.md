@@ -149,6 +149,7 @@ objects files: [Patient.py](https://github.com/BeatrizRCorreia/health_informatic
 patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example.json) and [patient-example-2.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example-2.json)
 
 **Procedure to solve this question:**
+
 1. Set the database connection.
 2. Parse the JSON files by saving the JSON fields inside objects fields (objects are Patient, Animal, Link, Contact, Communication, Address, Identifier, Name and Telecom).
 3. Drop existing tables.
@@ -156,8 +157,7 @@ patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health
 5. Populate: insert into the corresponding tables the object fields.
 6. Close the database connection.
 
-**Run my solution:**
-Linux environment instructions
+**Run my solution - Linux environment instructions**
 
 To check the contents inside the database by running my program that has access to the database:
 1. Open a terminal.

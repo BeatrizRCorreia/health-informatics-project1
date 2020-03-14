@@ -10,6 +10,32 @@ ___
 
 patient (<ins>patient_db_id</ins>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
+animal (<ins>patient_db_id</ins>, species, breed, genderStatus)
+	patient_db_id: FK (patient)
+
+link (<ins>patient_db_id</ins>, other, type)
+	patient_db_id: FK (patient)
+
+contact (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, relationship, gender, organization, period)
+	patient_db_id: FK (patient)
+
+communication (<ins>patient_db_id</ins>, language, preferred)
+	patient_db_id: FK (patient)
+
+address (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, type, textt, line, city, district, state, postalCode, country, period)
+	patient_db_id: FK (patient)
+	contact_db_id: FK (contact)
+
+identifier (<ins>patient_db_id</ins>, use, type, system, value, period, assigner)
+	patient_db_id: FK (patient)
+
+name (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, use, textt, family, given, period, prefix, suffix)
+	patient_db_id: FK (patient)
+	contact_db_id: FK (contact)
+
+telecom (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, system, value, use, rank, period)
+	patient_db_id: FK (patient)
+	contact_db_id: FK (contact)
 ___
 **(ii)**
 ```
@@ -26,6 +52,93 @@ CREATE TABLE IF NOT EXISTS patient (
     photo blob,
     generalPractitioner text,
     CONSTRAINT check_gender CHECK (gender IN ('male', 'female', 'other', 'unknown')));
+
+CREATE TABLE IF NOT EXISTS animal (
+    patient_db_id integer,
+    species text,
+    breed text,
+    genderStatus text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS link (
+    patient_db_id integer,
+    other text,
+    type text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_type CHECK (type IN ('replaced-by', 'replaces', 'refer', 'seealso')));
+
+CREATE TABLE IF NOT EXISTS contact (
+    patient_db_id integer,
+    contact_db_id integer PRIMARY KEY,
+    relationship text,
+    gender text,
+    organization text,
+    period text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_gender CHECK (gender IN ('male', 'female', 'other', 'unknown')));
+
+CREATE TABLE IF NOT EXISTS communication (
+    patient_db_id integer,
+    language text,
+    preferred integer,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS address (
+    patient_db_id integer,
+    contact_db_id integer,
+    use text,
+    type text,
+    textt text,
+    line text,
+    city text,
+    district text,
+    state text,
+    postalCode integer,
+    country text,
+    period text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(contact_db_id) REFERENCES contact(contact_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_use CHECK (use IN ('home', 'work', 'temp', 'old')),
+    CONSTRAINT check_type CHECK (type IN ('postal', 'physical', 'both')));
+
+CREATE TABLE IF NOT EXISTS identifier (
+    patient_db_id integer,
+    use text,
+    type text,
+    system text,
+    value integer,
+    period text,
+    assigner text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_use CHECK (use IN ('usual', 'official', 'temp', 'secondary')));
+
+CREATE TABLE IF NOT EXISTS name (
+    patient_db_id integer,
+    contact_db_id integer,
+    use text,
+    textt text,
+    family text,
+    given text,
+    period text,
+    prefix text,
+    suffix text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(contact_db_id) REFERENCES contact(contact_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_use CHECK (use IN ('usual', 'official', 'temp', 'nickname', 'anonymous', 'old', 'maiden')));
+
+CREATE TABLE IF NOT EXISTS telecom (
+    patient_db_id integer,
+    contact_db_id integer,
+    system text,
+    value text,
+    use text,
+    rank integer,
+    period text,
+    FOREIGN KEY(patient_db_id) REFERENCES patient(patient_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(contact_db_id) REFERENCES contact(contact_db_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT check_system CHECK (system IN ('phone', 'fax', 'email', 'pager', 'url', 'sms', 'other')),
+    CONSTRAINT check_use CHECK (use IN ('home', 'work', 'temp', 'old', 'mobile')));
+
 ```
 ___
 **Q2 -** Write a program to populate the relational database from JSON files encoding *Patient* resources according to the HL7-PHIR format (**suggestion**: use Python with the [sqlite library](https://docs.python.org/2/library/sqlite3.html)). You can file example JSON files in the [*Patient* description](http://hl7.org/fhir/STU3/patient-examples.html). You should be able to load the [General Person Example](http://hl7.org/fhir/STU3/patient-example.json.html). 

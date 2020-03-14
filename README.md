@@ -160,7 +160,7 @@ patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health
 **Run my solution - Linux environment instructions:**
 
 To check the contents inside the database by running my program that has access to the database:
-1. Adjust the file path on line 392 (patient-database.py) to the place in your computer where you want to create the database file "my-database.db".
+1. Adjust the file path on line 392 ("patient-database.py") to the place in your computer where you want to create the database file "my-database.db".
 2. Open a terminal.
 3. Get to the folder where the file "patient-database.py" is (along with all the previously mentioned python and json files).
 4. Run the command "python3 patient-database.py".
@@ -179,5 +179,5 @@ To check the contents inside the database by entering the database:
 **How to populate the database with more json files:**
 
 1. Add the json file to the directory where are all the other python and json files.
-2. Add the name of the file to the json files list in line 18 (patient-database.py).
+2. Add the name of the file to the json files list in line 18 ("patient-database.py").
 ___

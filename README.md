@@ -8,7 +8,7 @@ The *HL7 Fast Healthcare Interoperability Resources* ([FHIR](http://www.hl7.org/
 ___
 **(i)**
 
-patient(<u>patient_db_id</u>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
+patient (<ins>patient_db_id</ins>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
 ___
 **(ii)**

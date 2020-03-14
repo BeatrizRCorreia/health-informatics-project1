@@ -2,16 +2,18 @@ import sqlite3
 from sqlite3 import Error
 import json
 
-from Identifier import Identifier
-from Name import Name
 from Patient import Patient
-from Telecom import Telecom
-from Address import Address
-from Contact import Contact
 from Animal import Animal
 from Link import Link
+from Contact import Contact
 from Communication import Communication
+from Address import Address
+from Identifier import Identifier
+from Name import Name
+from Telecom import Telecom
 
+# MORE JSON FILES CAN BE ADDED HERE TO BE PARSED AND GET ITS CONTENTS ADDED TO THE DATABASE
+# ONLY "resourceType": "Patient" RESOURCES WILL BE ACCEPTED TO THE DATABASE
 json_files = ['patient-example.json', 'patient-example-2.json']
 
 patients_sql = """CREATE TABLE IF NOT EXISTS patient (

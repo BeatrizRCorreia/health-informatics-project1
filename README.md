@@ -10,16 +10,13 @@ ___
 
 patient (<ins>patient_db_id</ins>, active, gender, birthDate, deceasedBoolean, managingOrganization, maritalStatus, multipleBirthBoolean, multipleBirthInteger, photo, generalPractitioner)
 
-animal (<ins>patient_db_id</ins>, species, breed, genderStatus)
-
+animal (<ins>patient_db_id</ins>, species, breed, genderStatus)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
-link (<ins>patient_db_id</ins>, other, type)
-
+link (<ins>patient_db_id</ins>, other, type)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
-contact (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, relationship, gender, organization, period)
-
+contact (<ins>patient_db_id</ins>, <ins>contact_db_id</ins>, relationship, gender, organization, period)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;patient_db_id: FK (patient)
 
 communication (<ins>patient_db_id</ins>, language, preferred)

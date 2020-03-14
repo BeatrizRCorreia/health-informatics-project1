@@ -8,9 +8,9 @@ Q1 - Derive a Relational Model to hold the information of the *Patient* resource
 
 Q2 - Write a program to populate the relational database from JSON files encoding *Patient* resources according to the HL7-PHIR format (**suggestion**: use Python with the sqlite library[⁴]). You can file example JSON files in the *Patient* description[⁵]. You should be able to load the General Person Example[⁶]. 
 
-[¹]: http://www.hl7.org/fhir/stu3/
-[²]: http://hl7.org/fhir/STU3/patient.html
-[³]: https://www.sqlite.org/index.html
-[⁴]: https://docs.python.org/2/library/sqlite3.html
-[⁵]: http://hl7.org/fhir/STU3/patient-examples.html
-[⁶]: http://hl7.org/fhir/STU3/patient-example.json.html
+[¹]: [http://www.hl7.org/fhir/stu3/](http://www.hl7.org/fhir/stu3/)
+[²]: [http://hl7.org/fhir/STU3/patient.html](http://hl7.org/fhir/STU3/patient.html)
+[³]: [https://www.sqlite.org/index.html](https://www.sqlite.org/index.html)
+[⁴]: [https://docs.python.org/2/library/sqlite3.html](https://docs.python.org/2/library/sqlite3.html)
+[⁵]: [http://hl7.org/fhir/STU3/patient-examples.html](http://hl7.org/fhir/STU3/patient-examples.html)
+[⁶]: [http://hl7.org/fhir/STU3/patient-example.json.html](http://hl7.org/fhir/STU3/patient-example.json.html)

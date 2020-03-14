@@ -388,7 +388,7 @@ def populate_db(patients, database):
 
 if __name__ == '__main__':
 
-    # SET DATABASE
+    # SET DATABASE (NEEDS ADJUSTMENT IF THIS IS RUN IN ANOTHER COMPUTER)
     connection = create_connection(r"/home/beatriz/Documents/TIS/health_informatics_project1/database/my-database.db")
 
     # PARSE JSON CONTENT TO OBJECTS

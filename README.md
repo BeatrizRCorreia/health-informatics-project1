@@ -148,7 +148,7 @@ main file: [patient-database.py](https://github.com/BeatrizRCorreia/health_infor
 objects files: [Patient.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Patient.py), [Animal.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Animal.py), [Link.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Link.py), [Contact.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Contact.py), [Communication.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Communication.py), [Address.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Address.py), [Identifier.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Identifier.py), [Name.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Name.py) and [Telecom.py](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/Telecom.py)\
 patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example.json) and [patient-example-2.json](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient-example-2.json)
 
-**Procedure to solve this question:**
+**My procedure to solve this question:**
 
 1. Set the database connection.
 2. Parse the JSON files by saving the JSON fields inside objects fields (objects are Patient, Animal, Link, Contact, Communication, Address, Identifier, Name and Telecom).
@@ -157,21 +157,27 @@ patients files: [patient-example.json](https://github.com/BeatrizRCorreia/health
 5. Populate: insert into the corresponding tables the object fields.
 6. Close the database connection.
 
-**Run my solution - Linux environment instructions**
+**Run my solution - Linux environment instructions:**
 
 To check the contents inside the database by running my program that has access to the database:
-1. Open a terminal.
-2. Get to the folder where the file "patient-database.py" is.
-3. Run the command "python3 patient-database.py".
+1. Adjust the file path on line 392 (patient-database.py) to the place in your computer where you want to create the database file "my-database.db".
+2. Open a terminal.
+3. Get to the folder where the file "patient-database.py" is (along with all the previously mentioned python and json files).
+4. Run the command "python3 patient-database.py".
 
 To check the contents inside the database by entering the database:
 1. Open a terminal.
-2. Get to the folder where the file "patient-database.py" is.
-3. Get inside the folder "database" with the command "cd database/".
+2. Get to the folder where the file "patient-database.py" is (along with all the previously mentioned python and json files).
+3. Get inside the folder "database" with the command "cd database/" - this is the folder where i have my database file "my-database.db".
 4. Run the command "sqlite3" (this package needs to be installed).
 5. Now inside sqlite3, to open the database, run ".open my-database.db".
 6. Activate the foreign keys by running "PRAGMA foreign_keys = ON;" (because they always start turned off in sqlite).
 7. To view the contents in a prettier way, run the commands ".headers on" and ".mode columns".
 8. Finally, run sql queries, such as: "select * from patient;".
 9. To exit sqlite, run the command ".exit".
+
+**How to populate the database with more json files:**
+
+1. Add the json file to the directory where are all the other python and json files.
+2. Add the name of the file to the json files list in line 18 (patient-database.py).
 ___

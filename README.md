@@ -1,1 +1,16 @@
-# health_informatics_project1
+# Health informatics project 1
+
+The *HL7 Fast Healthcare Interoperability Resources* (FHIR[^1]) standards framework is built on a set of modular resources that can easily be assembled into working systems. For instance, the *Patient*[^2] resource covers data about patients involved in a wide range of health-related activities, including the demographic information necessary to support the clinical, administrative, financial and logistic procedures. The FHIR website gives a description for the resource, detailing how the information can be encoded in different formats (e.g., XML or JSON). A corresponding high-level diagram is as follows.
+
+![Patient uml](https://github.com/BeatrizRCorreia/health_informatics_project1/blob/master/patient_uml.png)
+
+Q1 - Derive a Relational Model to hold the information of the *Patient* resource. You may start by an Entity-Relationship (ER) model of the resources and then convert the ER model to the Relational Model, or you can just map the UML model of the resources into a relational schema directly. Then, implement the database in a database management system of your choice (**suggestion**: *sqlite*[^3]). Your answer should contain (i) the Relational 3 Schema of the module and (ii) the SQL instructions to define the relational schema of the database.
+
+Q2 - Write a program to populate the relational database from JSON files encoding *Patient* resources according to the HL7-PHIR format (**suggestion**: use Python with the sqlite library[^4]). You can file example JSON files in the *Patient* description[^5]. You should be able to load the General Person Example[^6]. 
+
+[^1]: http://www.hl7.org/fhir/stu3/
+[^2]: http://hl7.org/fhir/STU3/patient.html
+[^3]: https://www.sqlite.org/index.html
+[^4]: https://docs.python.org/2/library/sqlite3.html
+[^5]: http://hl7.org/fhir/STU3/patient-examples.html
+[^6]: http://hl7.org/fhir/STU3/patient-example.json.html
